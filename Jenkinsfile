@@ -7,10 +7,17 @@ node {
     def dockerImage
     // ip address of the docker private repository(nexus)
     
-    def dockerRepoUrl = "localhost:8083"
-    def dockerImageName = "hello-world-java"
-    def dockerImageTag = "${dockerRepoUrl}/${dockerImageName}:${env.BUILD_NUMBER}"
+    //def dockerRepoUrl = "localhost:8083"
+    //def dockerImageName = "hello-world-java"
     
+    
+    parameters {
+      string(description: 'docker Repository Url', name: 'dockerRepoUrl', defaultValue: 'localhost:8083')
+      string(description: 'docker Image Name', name: 'dockerImageName', defaultValue: 'hello-world-java')
+    }
+	
+    def dockerImageTag = "${params.dockerRepoUrl}/${params.dockerImageName}:${env.BUILD_NUMBER}"
+	
     stage('Clone Repo') { // for display purposes
       // Get some code from a GitHub repository
       git 'https://github.com/dstar55/docker-hello-world-spring-boot.git'
@@ -43,17 +50,17 @@ node {
       sh "ls -all /var/run/docker.sock"
       sh "mv ./target/hello*.jar ./data" 
       
-      dockerImage = docker.build("hello-world-java")
+      dockerImage = docker.build("${params.dockerImageName}")
     }
    
     stage('Deploy Docker Image'){
       
       // deploy docker image to nexus
 
-      echo "Docker Image Tag Name: ${dockerImageTag}"
+      echo "Docker Image Tag Name: ${params.dockerImageTag}"
 
-      sh "docker login -u admin -p admin123 ${dockerRepoUrl}"
-      sh "docker tag ${dockerImageName} ${dockerImageTag}"
-      sh "docker push ${dockerImageTag}"
+      sh "docker login -u admin -p admin123 ${params.dockerRepoUrl}"
+      sh "docker tag ${params.dockerImageName} ${params.dockerImageTag}"
+      sh "docker push ${params.dockerImageTag}"
     }
 }
