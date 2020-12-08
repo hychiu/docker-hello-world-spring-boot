@@ -5,13 +5,9 @@ node {
 
     // holds reference to docker image
     def dockerImage
-    // ip address of the docker private repository(nexus)
-    
-    //def dockerRepoUrl = "localhost:8083"
-    //def dockerImageName = "hello-world-java"
-    
     
     parameters {
+      // ip address of the docker private repository(nexus)
       string(description: 'docker Repository Url', name: 'dockerRepoUrl', defaultValue: 'localhost:8083')
       string(description: 'docker Image Name', name: 'dockerImageName', defaultValue: 'hello-world-java')
     }
@@ -47,7 +43,7 @@ node {
     stage('Build Docker Image') {
       // build docker image
       sh "whoami"
-      //sh "ls -all /var/run/docker.sock"
+      sh "ls -all /var/run/docker.sock"
       sh "mv ./target/hello*.jar ./data" 
       
       dockerImage = docker.build("${params.dockerImageName}")
