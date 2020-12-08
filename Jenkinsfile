@@ -2,6 +2,7 @@ node {
     // reference to maven
     // ** NOTE: This 'maven-3.6.1' Maven tool must be configured in the Jenkins Global Configuration.   
     def mvnHome = tool 'maven-3.6.1'
+    def dockerHome = tool 'docker'
 
     // holds reference to docker image
     def dockerImage
@@ -43,7 +44,8 @@ node {
     stage('Build Docker Image') {
       // build docker image
       sh "whoami"
-      sh "ls -all /var/run/docker.sock"
+      sh "which docker"
+      //sh "ls -all /var/run/docker.sock"
       sh "mv ./target/hello*.jar ./data" 
       
       dockerImage = docker.build("${params.dockerImageName}")
