@@ -2,7 +2,7 @@
 FROM 35.222.76.87:8132/openjdk:8-jdk-alpine
 
 #maintainer 
-MAINTAINER dstar55@yahoo.com
+#MAINTAINER dstar55@yahoo.com
 #expose port 8080
 EXPOSE 8080
 
