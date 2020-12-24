@@ -1,5 +1,5 @@
 # Maven build container 
-FROM 35.222.76.87:8132/openjdk:8-jdk-alpine
+FROM 35.184.91.80:8132/openjdk:8-jdk-alpine
 
 #maintainer 
 #MAINTAINER dstar55@yahoo.com
